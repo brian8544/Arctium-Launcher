@@ -119,6 +119,8 @@ static class Launcher
 
                 await tcpClient.ConnectAsync(portal.HostName, portal.Port, tcpClientTimeout.Token);
 
+                // Commented out certificate validation code
+                /*
                 using var sslStream = new SslStream(tcpClient.GetStream(), false,
                     (_, _, _, sslPolicyErrors) =>
                     {
@@ -137,6 +139,7 @@ static class Launcher
                 );
 
                 sslStream.AuthenticateAsClient(portal.HostName);
+                */
             }
             catch (Exception exception) when (exception is SocketException or OperationCanceledException)
             {
@@ -146,6 +149,7 @@ static class Launcher
 
                 return string.Empty;
             }
+            /*
             catch (AuthenticationException)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -156,6 +160,7 @@ static class Launcher
 
                 return string.Empty;
             }
+            */
         }
 
         return gameBinaryPath;
