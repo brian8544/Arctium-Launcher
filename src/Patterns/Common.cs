@@ -11,7 +11,5 @@ static class Common
     public static short[] CryptoEdPublicKey = { 0x15, 0xD6, 0x18, 0xBD, 0x7D, 0xB5, 0x77, 0xBD };
 
     public static short[] CertBundle = "{\"Created\":".ToPattern();
-    public static string VersionUrl = "http://%s.patch.battle.net:1119/%s/versions";
-    public static string CdnsUrl = "http://%s.patch.battle.net:1119/%s/cdns";
     public static short[] Portal = ".actual.battle.net\0".ToPattern();
 }

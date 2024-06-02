@@ -177,29 +177,6 @@ static class Launcher
         Console.WriteLine();
         Console.ResetColor();
 
-        // Assign the region and product dependent version url to check it's online status.
-        var versionUrl = commandLineResult.GetValueForOption(LaunchOptions.VersionUrl)
-            ?? Patches.Common.GetVersionUrl(clientVersion.Build, commandLineResult.GetValueForOption(LaunchOptions.CdnRegion),
-                                            commandLineResult.GetValueForOption(LaunchOptions.ProductName));
-
-        if (!CheckUrl(versionUrl, fallbackUrl: Patterns.Common.VersionUrl).GetAwaiter().GetResult())
-            versionUrl = Patterns.Common.VersionUrl;
-        else
-            // Assign the region and product independent version url.
-            versionUrl = commandLineResult.GetValueForOption(LaunchOptions.VersionUrl) ?? Patches.Common.GetVersionUrl(clientVersion.Build);
-
-        var cdnsUrl = commandLineResult.GetValueForOption(LaunchOptions.CdnsUrl) ?? Patches.Common.CdnsUrl;
-
-        if (!CheckUrl(cdnsUrl, fallbackUrl: Patterns.Common.CdnsUrl).GetAwaiter().GetResult())
-            cdnsUrl = Patterns.Common.CdnsUrl;
-
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("Game CDN connection info:");
-        Console.WriteLine($"Version file: {versionUrl}");
-        Console.WriteLine($"CDNs file: {cdnsUrl}");
-        Console.WriteLine();
-        Console.ResetColor();
-
         var startupInfo = new StartupInfo();
         var processInfo = new ProcessInformation();
 
@@ -242,7 +219,7 @@ static class Launcher
                     memory.RefreshMemoryData((int)gameAppData.Length);
 
                     // We need to cache this here since we are using our RSA modulus as auth seed.
-                    var modulusOffset = memory.Data.FindPattern(Patterns.Common.SignatureModulus);
+                    var modulusOffset = memory.Data.FindPattern(Patterns.Common.CryptoRsaModulus);
                     var legacyCertMode = clientVersion is (1, >= 14, <= 3, _) or (3, 4, <= 1, _) or (9, _, _, _) or (10, <= 1, < 5, _);
 
                     if (!commandLineResult.GetValueForOption(LaunchOptions.SkipConnectionPatching))
@@ -267,8 +244,6 @@ static class Launcher
                                 : memory.PatchMemory(Patterns.Common.CryptoRsaModulus, Patches.Common.RsaModulus, "GameCrypto RsaModulus"),
 
                             memory.PatchMemory(Patterns.Common.Portal, Patches.Common.Portal, "Login Portal"),
-                            memory.PatchMemory(Patterns.Common.VersionUrl.ToPattern(), Encoding.UTF8.GetBytes(versionUrl), "Version URL"),
-                            memory.PatchMemory(Patterns.Common.CdnsUrl.ToPattern(), Encoding.UTF8.GetBytes(cdnsUrl), "CDNs URL"),
                             memory.PatchMemory(Patterns.Windows.LauncherLogin, Patches.Windows.LauncherLogin, "Launcher Login Registry")
                         }, CancellationTokenSource.Token);
                     }
