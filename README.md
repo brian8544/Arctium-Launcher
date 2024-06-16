@@ -10,22 +10,22 @@ Please see our Open Source project [Documentation Repo](https://github.com/Arcti
 Please do NOT remove the name `arctium` from the final binary.
 Blizzard filters their crash logs based on localhost and the string `arctium` in the binary name. 
 
+
 ### NOTE FOR LOCAL DEVELOPMENT & SERVER CONNECTIONS
-#### Applies to: 1.14.4 or later, 3.4.2 or later, 10.1.5 or later
 * **Dev Mode is enabled by default for local game portals.**
 * LOCAL HOSTNAME & IP: `REQUIRES` the `--dev` command line parameter to force the dev mode to avoid issues with invalid certificate chains. The launcher auto detectes local addresses and enables it.
 * EXTERNAL HOSTNAME:
     * `DO NOT` use the `--dev` command line parameter. It's blocked by the launcher.
     * `USE` a valid certificate matching your authentication/bnet server host name.
-        * That certificate needs to be loaded by the authentication/bnet server too.
-* EXTERNAL IP: `NOT SUPPORTED`
+        * That certificate needs to be loaded by the authentication/bnet server too (TC only).
+* ~~EXTERNAL IP: `NOT SUPPORTED`~~
 
 ### Binary Releases
 You can find signed binary releases at [Releases](https://github.com/Arctium/WoW-Launcher/releases)
 
 ### Supported Game Versions (Windows x86 64 bit, Release)
-* Dragonflight: 10.x
-* Shadowlands: 9.x
+* ~~Dragonflight: 10.x~~
+* ~~Shadowlands: 9.x~~
 * Classic BC/WotLK: 2.5.x, 3.4.x (--version Classic)
 * Classic Era: 1.14.x (--version ClassicEra)
 
@@ -49,7 +49,7 @@ You can find signed binary releases at [Releases](https://github.com/Arctium/WoW
 3. Run the `Actium WoW Launcher.exe`
 
 ### Static Auth Seed Usage
-* Use the --staticseed launch parameter
+* ~~Use the --staticseed launch parameter~~
 * On server side add `179D3DC3235629D07113A9B3867F97A7` as auth seed in the database.
 
 ### Custom File Loading Usage
