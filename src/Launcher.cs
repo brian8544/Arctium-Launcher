@@ -119,27 +119,28 @@ static class Launcher
 
                 await tcpClient.ConnectAsync(portal.HostName, portal.Port, tcpClientTimeout.Token);
 
-                // Commented out certificate validation code
-                /*
-                using var sslStream = new SslStream(tcpClient.GetStream(), false,
-                    (_, _, _, sslPolicyErrors) =>
-                    {
-                        // Redirect to the trusted cert warning.
-                        if (sslPolicyErrors != SslPolicyErrors.None)
-                            throw new AuthenticationException();
 
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"Certificate for server '{portal.HostName}' successfully validated.");
-                        Console.WriteLine();
-                        Console.ResetColor();
+                if (gameVersion == GameVersion.Retail)
+                {
+                    using var sslStream = new SslStream(tcpClient.GetStream(), false,
+                        (_, _, _, sslPolicyErrors) =>
+                        {
+                            // Redirect to the trusted cert warning.
+                            if (sslPolicyErrors != SslPolicyErrors.None)
+                                throw new AuthenticationException();
 
-                        return true;
-                    },
-                    null
-                );
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"Certificate for server '{portal.HostName}' successfully validated.");
+                            Console.WriteLine();
+                            Console.ResetColor();
 
-                sslStream.AuthenticateAsClient(portal.HostName);
-                */
+                            return true;
+                        },
+                        null
+                    );
+
+                    sslStream.AuthenticateAsClient(portal.HostName);
+                }
             }
             catch (Exception exception) when (exception is SocketException or OperationCanceledException)
             {
@@ -219,7 +220,7 @@ static class Launcher
                     memory.RefreshMemoryData((int)gameAppData.Length);
 
                     // We need to cache this here since we are using our RSA modulus as auth seed.
-                    var modulusOffset = memory.Data.FindPattern(Patterns.Common.SignatureModulus);
+                    var modulusOffset = memory.Data.FindPattern(Patterns.Common.CryptoRsaModulus);
                     var legacyCertMode = clientVersion is (1, >= 14, <= 3, _) or (3, 4, <= 1, _) or (9, _, _, _) or (10, <= 1, < 5, _);
 
                     if (!commandLineResult.GetValueForOption(LaunchOptions.SkipConnectionPatching))
