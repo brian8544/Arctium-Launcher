@@ -103,7 +103,7 @@ static class Helpers
     public static async Task<bool> CheckUrl(string url, string fallbackUrl)
     {
         using var httpClient = new HttpClient();
-        
+
         httpClient.Timeout = TimeSpan.FromSeconds(5);
 
         try

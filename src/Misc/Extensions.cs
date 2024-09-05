@@ -62,9 +62,9 @@ static class Extensions
 
             if (match == 0)
                 continue;
-            
+
             matchList.Add(match);
-            
+
             match += pattern.Length;
 
         } while ((matchList.Count < maxMatches || match < maxOffset) && match != 0);

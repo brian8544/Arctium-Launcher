@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Arctium.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using static Arctium.WoW.Launcher.Misc.NativeWindows;
 using static Arctium.WoW.Launcher.Misc.Helpers;
+using static Arctium.WoW.Launcher.Misc.NativeWindows;
 
 namespace Arctium.WoW.Launcher.IO;
 
@@ -13,7 +13,7 @@ class WinMemory
     public nint BaseAddress { get; }
 
     ProcessBasicInformation _peb;
-    
+
     readonly nint _processHandle;
     readonly Dictionary<string, (long Address, byte[] Data)> _patchList;
 
@@ -252,7 +252,7 @@ class WinMemory
                                 NtUnmapViewOfSection(_processHandle, viewBase2);
 
                                 // Check if the allocation protections is the right one.
-                                if (VirtualQueryEx(_processHandle, BaseAddress, out MemoryBasicInformation mbi, MemoryBasicInformation.Size) != 0 
+                                if (VirtualQueryEx(_processHandle, BaseAddress, out MemoryBasicInformation mbi, MemoryBasicInformation.Size) != 0
                                     && mbi.AllocationProtect == MemProtection.ExecuteRead)
                                 {
                                     // Also check if we can change the page protection.

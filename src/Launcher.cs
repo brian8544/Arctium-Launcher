@@ -119,7 +119,6 @@ static class Launcher
 
                 await tcpClient.ConnectAsync(portal.HostName, portal.Port, tcpClientTimeout.Token);
 
-
                 if (gameVersion == GameVersion.Retail)
                 {
                     using var sslStream = new SslStream(tcpClient.GetStream(), false,

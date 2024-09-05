@@ -1,9 +1,8 @@
 ﻿// Copyright (c) Arctium.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System.CommandLine.Parsing;
 using Arctium.WoW.Launcher;
-
+using System.CommandLine.Parsing;
 using static Arctium.WoW.Launcher.Misc.Helpers;
 
 // "Arctium" should not be removed from the final binary name.
